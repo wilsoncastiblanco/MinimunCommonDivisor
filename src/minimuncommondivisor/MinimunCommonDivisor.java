@@ -23,73 +23,41 @@ public class MinimunCommonDivisor {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+
+        returnResult();
+    }
+
+    private static int returnResult() {
         int a = 48;
         int b = 60;
-        getMcd(a, exponentsA);
-        getMcd(b, exponentsB);
 
-        System.out.println("exponentsA " + exponentsA.toString());
-        System.out.println("exponentsB " + exponentsB.toString());
-
-        Iterator it = exponentsA.entrySet().iterator();
-        while (it.hasNext()) {
-            Map.Entry pair = (Map.Entry) it.next();
-            validateExponents(pair);
-            it.remove();
+        if (a == 0) {
+            return b;
         }
 
-        int minimunCommonDivisor = 1;
-        Iterator iteratorResult = result.entrySet().iterator();
-        while (iteratorResult.hasNext()) {
-            Map.Entry pair = (Map.Entry) iteratorResult.next();
-            minimunCommonDivisor *= (Math.pow((Integer) pair.getKey(), (Integer) pair.getValue()));
-            iteratorResult.remove();
+        if (b == 0) {
+            return a;
         }
+
+        int number = MCD(a, b);
+        System.out.println("MCD " + number);
+        return number;
     }
 
-    public static void getMcd(int number, HashMap<Integer, Integer> exponents) {
-        int divisionResult = number;
-        while (divisionResult > 1) {
-            int primeFactor = getPrimeFactor(divisionResult);
-            divisionResult = divisionResult / primeFactor;
-            exponents.merge(primeFactor, 1, Integer::sum);
-        }
-    }
+    private static int MCD(int a, int b) {
+        int resto;
+        int numDiv1 = a;
+        int numDiv2 = b;
 
-    public static int getPrimeFactor(int n) {
-        if (n == 1) {
-            return 1;
-        }
-        if (n == 2) {
-            return 2;
-        }
-        int primeFactor = 0;
-        for (int i = 2; i <= n; i++) {
-            int counter = 0;
-            for (int j = 2; j < i; j++) {
-                if (i % j == 0) {
-                    counter++;
-                }
+        do {
+            resto = numDiv1 % numDiv2;
+            numDiv1 = numDiv2;
+            if (resto != 0) {
+                numDiv2 = resto;
             }
-            if (counter == 0) {
-                if (n % i == 0) {
-                    primeFactor = i;
-                    break;
-                }
-            }
-        }
+        } while (resto != 0);
 
-        return primeFactor;
-    }
-
-    public static void validateExponents(Map.Entry pair) {
-        if (exponentsB.containsKey(pair.getKey())) {
-            if (exponentsB.get(pair.getKey()) < exponentsA.get(pair.getKey())) {
-                result.put((Integer) pair.getKey(), exponentsB.get(pair.getKey()));
-            } else {
-                result.put((Integer) pair.getKey(), exponentsA.get(pair.getKey()));
-            }
-        }
+        return numDiv2;
     }
 
 }
