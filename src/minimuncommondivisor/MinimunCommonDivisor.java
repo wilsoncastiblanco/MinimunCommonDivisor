@@ -45,6 +45,9 @@ public class MinimunCommonDivisor {
             minimunCommonDivisor *= (Math.pow((Integer) pair.getKey(), (Integer) pair.getValue()));
             iteratorResult.remove();
         }
+
+        System.err.println("minimunCommonDivisor " + minimunCommonDivisor);
+
     }
 
     public static void getMcd(int number, HashMap<Integer, Integer> exponents) {
